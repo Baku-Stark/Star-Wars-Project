@@ -11,7 +11,7 @@ export default defineComponent({
   name: 'HomeView',
   methods:{
     __init__(){
-      document.title = "Home Page"
+      document.title = "Star Wars Project"
       this.api_movies()
     },
 

@@ -9,7 +9,7 @@
                 <router-link to="/about">About</router-link>
             </div>
             <div class="button-navbar">
-                <button>
+                <button @click="sidebarActive">
                     <i class="bi bi-list"></i>
                 </button>
             </div>
@@ -53,6 +53,10 @@ nav{
     }
 
     div.links-navbar{
+        @include screenTablet{
+            display: none;
+        }
+
         a{
             font-size: 1.5em;
             margin-left: 20px;
@@ -68,9 +72,24 @@ nav{
                 color: #f7f307;
             }
         }
+    }
 
+    div.links-navbar.active{
         @include screenTablet{
-            display: none;
+            top: 0;
+            left: 0;
+            width: 50vw;
+            height: 100vh;
+            transition: .3s ease-in-out;
+            position: absolute;
+            background-color: #111111;
+            box-shadow: 20px 1px 150px #00000080;
+
+            @include FlexBox-Custom(column, space-evenly);
+
+            a{
+                margin-left: 0;
+            }
         }
     }
 
@@ -82,7 +101,7 @@ nav{
 
             button{
                 font-size: 2em;
-                padding: 4px 20px;
+                padding: 4px 10px;
                 border-radius: 15px;
                 border: none;
                 background-color: #a9a9a9;
@@ -101,6 +120,15 @@ nav{
 import { defineComponent } from 'vue'
 
 export default defineComponent({
-    name: 'Navbar'
+    name: 'Navbar',
+    methods:{
+        sidebarActive(){
+            const sidebar: HTMLElement | null = document.querySelector('.links-navbar')
+
+            sidebar!.className == "links-navbar active"
+                ? sidebar!.classList.remove('active')
+                : sidebar!.classList.add('active')
+        }
+    },
 })
 </script>
