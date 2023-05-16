@@ -15,27 +15,27 @@
                 <div class="col-12 footer-content-mid">
                     <div class="col-12 content-mid">
                         <h6 class="blue">Redes Sociais</h6>
-                        <a href="http://" target="_blank">
+                        <a href="https://twitter.com/Walleemc2" target="_blank">
                             <i class="bi bi-twitter"></i>
                         </a>
-                        <a href="http://" target="_blank">
+                        <a href="https://instagram.com/wallace_emc2" target="_blank">
                             <i class="bi bi-instagram"></i>
                         </a>
-                        <a href="http://" target="_blank">
+                        <a href="https://github.com/Baku-Stark" target="_blank">
                             <i class="bi bi-github"></i>
                         </a>
-                        <a href="http://" target="_blank">
+                        <a href="https://www.linkedin.com/in/wallace-freitas-92a2061b6/" target="_blank">
                             <i class="bi bi-linkedin"></i>
                         </a>
                     </div>
                     <div class="col-12 content-mid">
                         <h6 class="red">Projetos</h6>
-                        <a href="http://" target="_blank">
+                        <a href="https://baku-stark.github.io/Portfolio-Wallace/indexBaku.htm" target="_blank">
                             <span>
                                 Portfólio
                             </span>
                         </a>
-                        <a href="http://" target="_blank">
+                        <a href="https://github.com/Baku-Stark/Portfolio-Projects" target="_blank">
                             <span>
                                 Projetos (Repositório Full-Stack)
                             </span>
@@ -168,6 +168,6 @@ div.footer{
 import {defineComponent} from 'vue'
 
 export default defineComponent({
-    name: 'Footer'
+    name: 'Footer',
 })
 </script>
