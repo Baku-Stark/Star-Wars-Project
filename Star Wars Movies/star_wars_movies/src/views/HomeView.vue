@@ -119,6 +119,7 @@ div.movies-container{
         height: 225px;
       }
     }
+
     div.card-movie-body{
       @include GridLayout-Rows(1fr 2fr);
       align-items: center;
@@ -175,7 +176,7 @@ export default defineComponent({
   name: 'HomeView',
   data(){
     return{
-      movies: {},
+      movies: JSON,
       movies_poster: [
         "assets/img/1.jpg",
         "assets/img/2.jpg",
@@ -188,6 +189,7 @@ export default defineComponent({
   },
   methods:{
     __init__(){
+      document.documentElement.scrollIntoView(true)
       document.title = "Star Wars Project"
       this.api_movies()
     },
