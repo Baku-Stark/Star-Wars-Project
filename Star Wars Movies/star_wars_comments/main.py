@@ -4,10 +4,8 @@ from db.database import *
 try:
     import uvicorn
     from fastapi import FastAPI, status
-    from fastapi.middleware.cors import CORSMiddleware
     from pydantic import BaseModel
-
-
+    from fastapi.middleware.cors import CORSMiddleware
 
 except ModuleNotFoundError:
     os.system('pip install -r requirements.txt')
@@ -22,8 +20,8 @@ finally:
         stars_rating: int
 
     origins = [
-        "http://localhost:8080",
-        "http://localhost:8080/api/comment",
+        "http://127.0.0.1:8000/api/read",
+        "http://127.0.0.1:8000/api/comment",
     ]
 
     app.add_middleware(
@@ -34,8 +32,8 @@ finally:
         allow_headers=["*"],
     )
 
-    @app.get("/", status_code=status.HTTP_200_OK)
-    async def root():
+    @app.get("/api/read/{id_movie}", status_code=status.HTTP_200_OK)
+    async def root(id_movie: int):
         """
             Ler e receber o banco de dados e inserir na API.
 
@@ -47,17 +45,27 @@ finally:
             data : (json)
         """
 
+        create_db(id_movie)
+
+        id_movie_rec = id_movie
+
         return {
-            "message": "Hello World",
-            "body": read_comment()
+            "body": read_comment(id_movie_rec)
         }
 
-    @app.post('/api/comment', status_code=status.HTTP_201_CREATED)
-    async def create_comment(item: Item):
+    @app.post('/api/comment/{id_movie}', status_code=status.HTTP_201_CREATED)
+    async def create_comment(item: Item, id_movie: int):
         """
             Criar um novo comentário.
 
             ...
+            
+            ARGs
+            ----------
+            item : JSON
+                    `-> Documento JSON (comment)
+
+            id_movie: int
 
             RETURN
             ----------
@@ -65,7 +73,12 @@ finally:
             data : (json)
         """
 
-        return {"RESPONSE": "201 - CREATED", "NEW_ITEM": item}
+        create_comment(item)
+
+        return {
+            "RESPONSE": movie_id_convert(id_movie),
+            "NEW_COMMENT": item
+        }
 
     if __name__ == '__main__':
         uvicorn.run("main:app", host='127.0.0.1', reload=True)
