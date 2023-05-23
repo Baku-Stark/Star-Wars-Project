@@ -6,7 +6,7 @@
                     <h2>Deixe o seu comentário</h2>
                 </div>
                 <div class="col-12 comment-form">
-                    <form method="post" @submit="createComment">
+                    <form method="post" @submit="create_comment">
                         <div class="col-12 stars">
                             <input
                                 type="radio"
@@ -82,19 +82,31 @@
                         <strong>
                             Total de comentários: 
                         </strong>
-                        100
+                        {{ api_comments.length }}
                     </p>
                 </div>
                 <div class="container-fluid comments">
-                    <div class="container-comment">
+                    <div
+                        class="container-comment"
+                        v-for="comment of api_comments"
+                        :key="comment[0]"
+                    >
                         <div class="col-12">
-                            <h4 class="user">Baku</h4>
+                            <h4 class="user">
+                                {{ comment[1] }}
+                            </h4>
                         </div>
                         <div class="col-12 stars-rating">
-                            <i class="bi bi-star-fill"></i>
+                            <i
+                                class="bi bi-star-fill"
+                                v-for="stars of comment[3]"
+                                :key="stars"
+                            ></i>
                         </div>
                         <div class="col-12 comment">
-                            <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Iusto nam adipisci nulla modi nostrum impedit molestias harum repudiandae sequi deleniti, ad voluptatum blanditiis corrupti accusantium excepturi dolorem ex optio. Accusantium.</p>
+                            <p>
+                                {{ comment[2] }}
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -219,11 +231,17 @@ export default defineComponent({
         return{
             username: null,
             comment: null,
-            stars: null
+            stars: null,
+            api_comments: []
         }
     },
     methods:{
-        async createComment(e:any){
+        __init__(){
+            this.get_comment()
+        },
+
+        async create_comment(e:any){
+            // CRIAR UM NOVO COMENTÁRIO.
             e.preventDefault()
 
             var id_movie = this.$route.params.id
@@ -236,19 +254,57 @@ export default defineComponent({
             
             // enviar para a API [POST]
             const dataJSON = JSON.stringify(data)
-            console.log(data)
+            const request = await fetch(`http://127.0.0.1:8000/api/comment/${id_movie}`, {
+                method: "POST",
+                mode: "cors",
+                credentials: "same-origin",
+                body: dataJSON,
+                headers: {
+                    "Content-Type":"application/json",
+                }
+            })
 
-            const statusCDN = '[ CREATED ]'
-            const message = '201 - CREATED'
-            console.log(
+            if(request.status == 201){
+    
+                const statusCDN = '[ CREATED ]'
+                const message = '201 - CREATED'
+                console.log(
+                    `%c ${statusCDN} %c ${message} `, 
+                    'background: #2112fc; color: #f0eff5; font-weight: bold;',
+                    'background: #f0f8ff; color: #111111; font-weight: bold;'
+                );
+    
+                // vue redirect
+                this.$router.push({ name:'home' })
+            }
+
+        },
+
+        async get_comment(){
+            // LER DADOS DA API
+            var id_movie = this.$route.params.id
+
+            const request = await fetch(`http://127.0.0.1:8000/api/read/${id_movie}`)
+
+            if(request.status == 200){
+                const data = await request.json()
+
+                this.api_comments = data.body
+                console.log(this.api_comments)
+
+                const statusCDN = '[ API-STAR WARS (GET COMMENT) ]'
+                const message = '200 - OK'
+                console.log(
                 `%c ${statusCDN} %c ${message} `, 
-                'background: #2112fc; color: #f0eff5; font-weight: bold;',
+                'background: #69ACEB; color: #f0eff5; font-weight: bold;',
                 'background: #f0f8ff; color: #111111; font-weight: bold;'
-            );
+                );
+            }
+        },
+    },
 
-            // vue redirect
-            // this.$router.push({ name:'home' })
-        }
+    created() {
+      this.__init__()
     }
 })
 </script>

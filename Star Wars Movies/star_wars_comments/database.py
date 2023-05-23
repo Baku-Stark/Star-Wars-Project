@@ -102,13 +102,13 @@ def read_comment(id_movie_rec: int):
     with connection:
         cur = connection.cursor()
         cur.execute("SELECT * FROM comments")
-        data = [dict(data) for data in cur.fetchall()]
+        data = [data for data in cur.fetchall()]
 
     connection.close()
 
     return data
 
-def create_comment(comment):
+def create_comment(comment, id_movie):
     """
         Leitura do banco de dados.
 
@@ -121,3 +121,15 @@ def create_comment(comment):
     rec_username = comment['username']
     rec_comment = comment['comment']
     rec_stars_rating = comment['stars_rating']
+
+    lista = [rec_username, rec_comment, rec_stars_rating]
+
+    connection = lite.connect(f'db/{movie_id_convert(id_movie)}.db')
+
+    with connection:
+        cur = connection.cursor()
+        cur.execute("INSERT INTO comments (username, comment, stars_rating) VALUES (?, ?, ?)", lista)
+
+    connection.close()
+
+    print(green + "[!] NOVO COMENTÁRIO INSERIDO [!]" + end)

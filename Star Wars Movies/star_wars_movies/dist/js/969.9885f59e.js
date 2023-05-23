@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkstar_wars_movies"]=self["webpackChunkstar_wars_movies"]||[]).push([[969],{3969:function(t,n,e){e.r(n),e.d(n,{default:function(){return d}});var s=e(3396);const a={class:"section-container"},i=(0,s._)("h1",null,"This is an about page",-1),r=[i];function o(t,n,e,i,o,u){return(0,s.wg)(),(0,s.iD)("div",a,r)}var u=(0,s.aZ)({name:"About Page",methods:{__init__(){document.title="About Project"}},mounted(){this.__init__()}}),c=e(89);const _=(0,c.Z)(u,[["render",o]]);var d=_}}]);
+//# sourceMappingURL=969.9885f59e.js.map

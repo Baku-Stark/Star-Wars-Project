@@ -1,10 +1,11 @@
 import os
-from db.database import *
+from database import *
 
 try:
     import uvicorn
     from fastapi import FastAPI, status
     from pydantic import BaseModel
+    from fastapi.encoders import jsonable_encoder
     from fastapi.middleware.cors import CORSMiddleware
 
 except ModuleNotFoundError:
@@ -19,10 +20,7 @@ finally:
         comment: str
         stars_rating: int
 
-    origins = [
-        "http://127.0.0.1:8000/api/read",
-        "http://127.0.0.1:8000/api/comment",
-    ]
+    origins = ["*"]
 
     app.add_middleware(
         CORSMiddleware,
@@ -39,10 +37,13 @@ finally:
 
             ...
 
+            ARGs
+            ----------
+            id_movie : int
+
             RETURN
             ----------
-            message : (str)
-            data : (json)
+            body : (tuple)
         """
 
         create_db(id_movie)
@@ -54,7 +55,7 @@ finally:
         }
 
     @app.post('/api/comment/{id_movie}', status_code=status.HTTP_201_CREATED)
-    async def create_comment(item: Item, id_movie: int):
+    async def api_create_comment(item: Item, id_movie: int):
         """
             Criar um novo comentário.
 
@@ -62,18 +63,20 @@ finally:
             
             ARGs
             ----------
-            item : JSON
-                    `-> Documento JSON (comment)
+            item : JSON - stringify
+                    `-> Documento stringify(comment)
 
             id_movie: int
 
             RETURN
             ----------
-            message : (str)
-            data : (json)
+            RESPONSE : (str)
+            NEW_COMMENT : (json)
         """
 
-        create_comment(item)
+        json_item = jsonable_encoder(item)
+
+        create_comment(json_item, id_movie)
 
         return {
             "RESPONSE": movie_id_convert(id_movie),
