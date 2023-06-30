@@ -37,6 +37,6 @@
 
 * **API:**
     * [PipDream](https://pipedream.com/apps/swapi)
-    * [Django Framework](https://swapi.dev/api/films/)
+    * [Django Framework - Star Wars](https://swapi.dev/api/films/)
 
 </details>
