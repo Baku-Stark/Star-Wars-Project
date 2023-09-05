@@ -254,7 +254,7 @@ export default defineComponent({
             }
             
             // enviar para a API [POST]
-            const baseURL = "https://star-wars-comments.vercel.app/"
+            const baseURL = "https://star-wars-comments.vercel.app"
             const dataJSON = JSON.stringify(data)
             const request = await fetch(`${baseURL}/api/comment/${id_movie}`, {
                 method: "POST",
