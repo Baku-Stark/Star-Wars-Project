@@ -30,6 +30,10 @@ finally:
         allow_headers=["*"],
     )
 
+    @app.get("/", status_code=status.HTTP_200_OK)
+    async def hello():
+        return {"response": "Hello!!!"}
+
     @app.get("/api/read/{id_movie}", status_code=status.HTTP_200_OK)
     async def root(id_movie: int):
         """

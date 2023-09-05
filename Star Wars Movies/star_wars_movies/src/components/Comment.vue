@@ -227,12 +227,13 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
     name: "Comment",
+
     data(){
         return{
             username: null,
             comment: null,
             stars: null,
-            api_comments: []
+            api_comments: [],
         }
     },
     methods:{
@@ -253,8 +254,9 @@ export default defineComponent({
             }
             
             // enviar para a API [POST]
+            const baseURL = "https://star-wars-comments.vercel.app/"
             const dataJSON = JSON.stringify(data)
-            const request = await fetch(`http://127.0.0.1:8000/api/comment/${id_movie}`, {
+            const request = await fetch(`${baseURL}/api/comment/${id_movie}`, {
                 method: "POST",
                 mode: "cors",
                 credentials: "same-origin",
@@ -283,8 +285,8 @@ export default defineComponent({
         async get_comment(){
             // LER DADOS DA API
             var id_movie = this.$route.params.id
-
-            const request = await fetch(`http://127.0.0.1:8000/api/read/${id_movie}`)
+            const baseURL = "https://star-wars-comments.vercel.app/"
+            const request = await fetch(`${baseURL}/api/read/${id_movie}`)
 
             if(request.status == 200){
                 const data = await request.json()
